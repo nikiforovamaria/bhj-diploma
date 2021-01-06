@@ -11,5 +11,9 @@ class RegisterForm {
    * и закрывает окно, в котором находится форма
    * */
   onSubmit( options ) {
+    if (User.register(options)) {
+      App.setState( 'user-logged' );
+      App.getModal('register').close().unregisterEvents();
+    }
   }
 }

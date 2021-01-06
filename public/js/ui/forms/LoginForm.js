@@ -11,6 +11,9 @@ class LoginForm {
    * закрывает окно, в котором находится форма
    * */
   onSubmit( options ) {
-
+    if (User.login(options)) {
+      App.setState( 'user-logged' );
+      App.getModal('login').close().unregisterEvents();
+    }
   }
 }
