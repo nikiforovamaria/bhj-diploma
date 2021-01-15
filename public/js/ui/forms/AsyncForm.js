@@ -26,8 +26,7 @@ class AsyncForm {
    * вызывает метод submit()
    * */
   registerEvents() {
-    const form = this.element.querySelector('.form');
-    form.addEventListener('submit', (e) => {
+    this.element.addEventListener('submit', (e) => {
       e.preventDefault();
       this.submit();
     });  
@@ -41,10 +40,12 @@ class AsyncForm {
    * }
    * */
   getData() {
-    const input = this.element.querySelectorAll('input');
+    const form = new FormData(this.element);
     let data = {};
-    for (let key in input) {
-      data.input[key].name = input[key].value;
+    for (let key of form) {
+      let name = key[0];
+      let value = key[1];
+      data[name] = value;
     }
     return data;
   }
