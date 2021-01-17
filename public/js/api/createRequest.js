@@ -1,10 +1,11 @@
-/**
+    /**
  * Основная функция для совершения запросов
  * на сервер.
  * */
 const createRequest = (options = {}) => {
     const xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
+    xhr.responseType = options.responseType;
 
     if (options.method == "GET") {
         let url = options.url;
@@ -17,7 +18,7 @@ const createRequest = (options = {}) => {
             xhr.open(options.method, url);
             xhr.send(); 
         } catch (e) {
-            console.log(e);
+            options.callback(e);
         }
     } else {
         const formData = new FormData();
@@ -28,16 +29,18 @@ const createRequest = (options = {}) => {
             xhr.open(options.method, options.url);
             xhr.send(formData);
         } catch (e) {
-            console.log(e);; 
+            options.callback(e); 
         }
     }
     
     xhr.addEventListener('readystatechange', () => {
         if (xhr.readyState == xhr.DONE && xhr.status == 200) {
+            console.log(xhr.response);
             options.callback(null, xhr.response);
         } else {
             options.callback(xhr.status, xhr.response);
         }
     });
+    
     return xhr;
 };

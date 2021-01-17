@@ -4,12 +4,13 @@
  * Имеет свойство URL, равное '/user'.
  * */
 class User {
+  static url = '/user';
   /**
    * Устанавливает текущего пользователя в
    * локальном хранилище.
    * */
   static setCurrent(user) {
-    localStorage.user = user;
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
   /**
@@ -25,7 +26,7 @@ class User {
    * из локального хранилища
    * */
   static current() {
-    return localStorage.user;
+    return JSON.parse(localStorage.getItem('user'));
   }
 
   /**
@@ -34,17 +35,17 @@ class User {
    * */
   static fetch( data, callback = f => f ) {
     return createRequest({
-      url: '/user' + '/current',
+      url: this.url + '/current',
       method: 'GET',
       responseType: 'json',
       data: data,
       callback: (err, response) => {
-        if (response && response.user) {
+        if (err === null && response.success) {
           this.setCurrent(response.user);
         } else {
           this.unsetCurrent();
         }
-        callback.call(this, err, response);
+        callback(err, response);
       }
     });
   }
@@ -57,15 +58,15 @@ class User {
    * */
   static login( data, callback = f => f ) {
     return createRequest({
-      url: '/user' + '/login',
+      url: this.url + '/login',
       method: 'POST',
       responseType: 'json',
-      data: data.data,
+      data: data,
       callback: (err, response) => {
-        if (response && response.user) {
+        if (err === null && response.success) {
           this.setCurrent(response.user);
         }
-        callback.call(this, err, response);
+        callback(err, response);
       }
     });
   }
@@ -78,20 +79,15 @@ class User {
    * */
   static register( data, callback = f => f ) {
     return createRequest({
-      url: '/user' + '/register',
+      url: this.url + '/register',
       method: 'POST',
       responseType: 'json',
-      data: data.data,
+      data: data,
       callback: (err, response) => {
-        if (response && response.user) {
-          let newUser = {
-            id: response.user.id,
-            name: data.data.name,
-            email: data.data.email
-          }
-          this.setCurrent(newUser.name);
+        if (err === null && response.success) {
+          this.setCurrent(response.user);
         }
-        callback.call(this, err, response);
+        callback(err, response);
       }
     });
   }
@@ -102,15 +98,15 @@ class User {
    * */
   static logout( data, callback = f => f ) {
     return createRequest({
-      url: '/user' + '/logout',
+      url: this.url + '/logout',
       method: 'POST',
       responseType: 'json',
-      data,
+      data: data,
       callback: (err, response) => {
-        if (!response.user) {
+        if (err === null && response.success) {
           this.unsetCurrent();
         }
-        callback.call(this, err, response);
+        callback(err, response);
       }
     });
   }

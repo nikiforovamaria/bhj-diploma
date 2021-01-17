@@ -27,11 +27,11 @@ class Modal {
    * */
   registerEvents() {
     const modal = this.element.querySelectorAll('[data-dismiss="modal"]');
-    for (let item of modal) {
+    modal.forEach(item => {
       item.addEventListener('click', (e) => {
         this.onClose(e);
-      });  
-    } 
+      });
+    });
   }
 
   /**
@@ -47,11 +47,11 @@ class Modal {
    * */
   unregisterEvents() {
     const modal = this.element.querySelectorAll('[data-dismiss="modal"]');
-    for (let item of modal) {
+    modal.forEach(item => {
       item.removeEventListener('click', (e) => {
         this.onClose(e);
       });
-    }
+    });
   }
   /**
    * Открывает окно: устанавливает CSS-свойство display

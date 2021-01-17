@@ -24,7 +24,7 @@ class Sidebar {
       e.preventDefault();
       body.classList.toggle('sidebar-open');
       body.classList.toggle('sidebar-collapse');
-    })
+    });
   }
 
   /**
@@ -45,8 +45,7 @@ class Sidebar {
     });
     document.querySelector('.menu-item_logout').addEventListener('click', (e) => {
       e.preventDefault();
-      let response = User.logout();
-      if (response.success == true) {
+      if (User.logout()) {
         App.setState( 'init' );
       }
     });
