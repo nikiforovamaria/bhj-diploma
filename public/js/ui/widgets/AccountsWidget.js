@@ -78,9 +78,9 @@ class AccountsWidget {
    * */
   clear() {
     const account = this.element.querySelectorAll('.account');
-    for (let item in account) {
-      item.remove();
-    }
+    account.forEach(item => {
+      this.element.removeChild(item);
+    });
   }
 
   /**
@@ -108,7 +108,7 @@ class AccountsWidget {
     let id = item.id;
     let name = item.name;
     let sum = item.sum;
-    let html = `<li class="active account" data-id="${id}">
+    let html = `<li class="account" data-id="${id}">
     <a href="#">
         <span>${name}</span> /
         <span>${sum} ₽</span>

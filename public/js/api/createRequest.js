@@ -6,12 +6,12 @@ const createRequest = (options = {}) => {
     const xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
     xhr.responseType = options.responseType;
+    let url = options.url;
 
     if (options.method == "GET") {
-        let url = options.url;
         url += '?';
         for (let key in options.data) {
-            url += `${key}=${options.data[key]}$`;
+            url += `${key}=${options.data[key]}&`;
         }
         url = url.substring(0, url.length - 1);
         try {
@@ -26,7 +26,7 @@ const createRequest = (options = {}) => {
             formData.append(key, options.data[key]);
         }
         try {
-            xhr.open(options.method, options.url);
+            xhr.open(options.method, url);
             xhr.send(formData);
         } catch (e) {
             options.callback(e); 

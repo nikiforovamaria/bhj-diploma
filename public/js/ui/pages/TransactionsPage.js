@@ -113,7 +113,6 @@ class TransactionsPage {
         }
       });
     }
-    
   }
   /**
    * Очищает страницу. Вызывает
@@ -161,8 +160,8 @@ class TransactionsPage {
    * item - объект с информацией о транзакции
    * */
   getTransactionHTML( item ) {
-    const date = this.formatDate(item.date);
-    let html = `<div class="transaction transaction_${item.type} row">
+    const date = this.formatDate(item.created_at);
+    let html = `<div class="transaction transaction_${item.type.toLowerCase()} row">
     <div class="col-md-7 transaction__details">
       <div class="transaction__icon">
           <span class="fa fa-money fa-2x"></span>
@@ -190,7 +189,7 @@ class TransactionsPage {
    * используя getTransactionHTML
    * */
   renderTransactions( data ) {
-    const content = document.querySelector('.content');
+    const content = this.element.querySelector('.content');
     content.innerHTML = '';
     for (let i = 0; i < data.length; i++) {
       content.innerHTML += this.getTransactionHTML(data[i]);

@@ -41,11 +41,8 @@ class CreateTransactionForm extends AsyncForm {
   onSubmit( options ) {
     Transaction.create(options, (err, response) => {
       if (err === null && response.success) {
-        if (App.getModal('newExpense')) {
-          App.getModal('newExpense').close();
-        } else {
-          App.getModal('newIncome').close();
-        }
+        App.getModal('newExpense').close();
+        App.getModal('newIncome').close();
         App.update();
       } else {
         console.log(err);
